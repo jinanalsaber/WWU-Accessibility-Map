@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Admin - WWU Accessibility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <header class="admin-navbar">
+        <div class="admin-navbar-left">
+            <a href="../user/map.html" class="admin-back-link"><i class="fa-solid fa-arrow-left"></i> Back to Map</a>
+            <div class="admin-panel-title"><i class="fa-solid fa-shield-halved"></i> Admin Panel</div>
+        </div>
+        <nav class="admin-navbar-right">
+            <a href="admin.html" class="admin-nav-link"><i class="fa-solid fa-table-cells-large"></i><span>Dashboard</span></a>
+            <a href="reports.html" class="admin-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <a href="buildings.html" class="admin-nav-link"><i class="fa-solid fa-building"></i><span>Buildings</span></a>
+            <a href="analytics.html" class="admin-nav-link active"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="ai-moderator.html" class="admin-nav-link"><i class="fa-solid fa-robot"></i><span>AI Moderator</span></a>
+        </nav>
+    </header>
+
+    <div id="admin-gate" class="admin-gate">
+        <div class="gate-card">
+            <i class="fa-solid fa-lock gate-icon"></i>
+            <h2>Admin Access</h2>
+            <p>Enter the admin passcode to continue.</p>
+            <input type="password" id="admin-passcode-input" class="form-control" placeholder="Passcode" autocomplete="off">
+            <button id="admin-passcode-submit" class="submit-form-btn">Unlock</button>
+            <p id="admin-gate-error" class="gate-error">Incorrect passcode. Please try again.</p>
+        </div>
+    </div>
+
+    <div id="admin-content" class="admin-content">
+        <div class="admin-page-wrapper">
+            <div class="admin-page-header">
+                <div>
+                    <h1>Analytics</h1>
+                    <p>Trends over time: resolution speed, report volume, and recurring hotspots.</p>
+                </div>
+                <button id="admin-logout-btn" class="admin-logout-btn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                </button>
+            </div>
+
+            <!-- ================= OPERATIONAL HEALTH ================= -->
+            <section class="analytics-section">
+                <h2 class="analytics-section-title"><i class="fa-solid fa-heart-pulse"></i> Operational Health</h2>
+
+                <div class="stat-cards" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-open-resolved-ratio">—</div>
+                        <div class="stat-label">Open : Resolved Ratio</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-avg-resolution-time">—</div>
+                        <div class="stat-label">Avg. Time to Resolution</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-needing-review">—</div>
+                        <div class="stat-label">Needing Review</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-backlog-total">—</div>
+                        <div class="stat-label">Total Backlog</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-panel" style="margin-top: 16px;">
+                    <h3><i class="fa-solid fa-layer-group"></i> Backlog by Severity <span class="panel-subtitle">Still-open reports only</span></h3>
+                    <div class="chart-container" style="height: 220px;">
+                        <canvas id="backlog-severity-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= PROBLEM HOTSPOTS ================= -->
+            <section class="analytics-section">
+                <h2 class="analytics-section-title"><i class="fa-solid fa-map-location-dot"></i> Problem Hotspots</h2>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-panel">
+                        <h3><i class="fa-solid fa-building"></i> Reports by Building</h3>
+                        <div class="chart-container">
+                            <canvas id="hotspot-building-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-panel">
+                        <h3><i class="fa-solid fa-door-open"></i> Reports by Room/Classroom <span class="panel-subtitle">Where specified</span></h3>
+                        <div id="hotspot-room-list" class="breakdown-list">
+                            <p class="panel-empty-msg">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-panel">
+                        <h3><i class="fa-solid fa-rotate"></i> Repeat Issues <span class="panel-subtitle">Same building + category, reported more than once</span></h3>
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table" id="repeat-issues-table">
+                                <thead>
+                                    <tr><th>Building</th><th>Category</th><th>Count</th><th>Most Recent</th></tr>
+                                </thead>
+                                <tbody><tr><td colspan="4" class="panel-empty-msg">Loading...</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="dashboard-panel">
+                        <h3><i class="fa-solid fa-camera"></i> Photo Evidence</h3>
+                        <div class="chart-container">
+                            <canvas id="photo-evidence-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TRENDS & SEASONALITY ================= -->
+            <section class="analytics-section">
+                <h2 class="analytics-section-title"><i class="fa-solid fa-chart-line"></i> Trends &amp; Seasonality</h2>
+
+                <div class="dashboard-panel">
+                    <h3><i class="fa-solid fa-calendar-days"></i> Category Trends Over Time <span class="panel-subtitle">Top 5 categories, by month</span></h3>
+                    <div class="chart-container">
+                        <canvas id="category-trend-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="dashboard-panel" style="margin-top: 16px;">
+                    <h3><i class="fa-solid fa-users"></i> New vs. Recurring Reporters</h3>
+                    <div class="chart-container" style="height: 220px;">
+                        <canvas id="reporter-chart"></canvas>
+                    </div>
+                    <p class="panel-subtitle" id="reporter-caveat-note" style="margin-top: 10px;"></p>
+                </div>
+            </section>
+
+            <!-- ================= AI MODERATOR IMPACT ================= -->
+            <section class="analytics-section">
+                <h2 class="analytics-section-title"><i class="fa-solid fa-robot"></i> AI Moderator Impact</h2>
+
+                <div class="stat-cards" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-flags-total">—</div>
+                        <div class="stat-label">Reports Flagged</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-flags-approved" style="color: var(--dark-green);">—</div>
+                        <div class="stat-label">Approved (False Positive)</div>
+                    </div>
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-flags-removed" style="color: var(--red);">—</div>
+                        <div class="stat-label">Removed (Confirmed)</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-panel" style="margin-top: 16px;">
+                    <h3><i class="fa-solid fa-percent"></i> Flag Rate by Category <span class="panel-subtitle">Share of each category's reports that got flagged</span></h3>
+                    <div class="chart-container">
+                        <canvas id="flag-rate-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= COVERAGE GAPS ================= -->
+            <section class="analytics-section">
+                <h2 class="analytics-section-title"><i class="fa-solid fa-magnifying-glass-location"></i> Coverage Gaps</h2>
+
+                <div class="dashboard-panel">
+                    <h3><i class="fa-solid fa-circle-exclamation"></i> Buildings With Zero Reports <span class="panel-subtitle">Could mean no issues, or under-reporting</span></h3>
+                    <div id="zero-report-buildings-list" class="breakdown-list">
+                        <p class="panel-empty-msg">Loading...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= ENGAGEMENT ================= -->
+            <section class="analytics-section">
+                <h2 class="analytics-section-title"><i class="fa-solid fa-thumbs-up"></i> Engagement</h2>
+
+                <div class="dashboard-grid">
+                    <div class="stat-card" style="text-align: center;">
+                        <div class="stat-value" id="stat-total-upvotes">—</div>
+                        <div class="stat-label">Total "Me Too" Reports</div>
+                    </div>
+                    <div class="dashboard-panel">
+                        <h3><i class="fa-solid fa-fire"></i> Most Upvoted Reports</h3>
+                        <div id="most-upvoted-list" class="breakdown-list">
+                            <p class="panel-empty-msg">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="admin-common.js"></script>
+    <script src="analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Reports - WWU Accessibility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="map.css"> <!-- Shared navbar + report-card/badge styles -->
+    <link rel="stylesheet" href="reports.css"> <!-- Page-specific layout overrides -->
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Shared Navigation Bar -->
+    <header class="navbar">
+        <nav class="nav-left" aria-label="Primary">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="map.html" class="nav-btn">Map</a>
+            <a href="reports.html" class="nav-btn active" aria-current="page">Recent Reports</a>
+            <a href="make_report.html" class="nav-btn" id="report-issue-nav-btn">Report Issue</a>
+        </nav>
+        <div class="nav-center">WESTERN WASHINGTON UNIVERSITY</div>
+        <div class="nav-right">
+            <a href="../Admin/admin.html" class="nav-btn-admin"><i class="fa-solid fa-lock"></i> Admin Login</a>
+        </div>
+    </header>
+
+    <!-- Main Reports Page Container -->
+    <main class="reports-page-wrapper" id="main-content">
+        <div class="reports-header">
+            <h1>Recent Reports</h1>
+            <p>Browse accessibility reports from the WWU campus community.</p>
+        </div>
+
+        <!-- Search + Filters (same markup/classes as the map page sidebar) -->
+        <div class="search-box">
+            <label for="search-input" class="sr-only">Search reports</label>
+            <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+            <input type="text" id="search-input" placeholder="Search reports..." class="search-bar">
+        </div>
+
+        <div class="filter-row">
+            <label for="category-filter" class="sr-only">Filter by category</label>
+            <select id="category-filter" class="filter-dropdown">
+                <option value="all">All Categories</option>
+            </select>
+            <label for="severity-filter" class="sr-only">Filter by severity</label>
+            <select id="severity-filter" class="filter-dropdown">
+                <option value="all">All Severities</option>
+            </select>
+        </div>
+
+        <div id="reports-count" class="count-badge" aria-live="polite">Loading reports...</div>
+
+        <!-- Single-column report list, same .report-card style as the map sidebar -->
+        <div id="reports-list" class="reports-list">
+            <!-- Cards injected by reports.js -->
+        </div>
+    </main>
+
+    <!-- Report Detail Modal (reuses .modal-overlay / .modal-content styles from map.css) -->
+    <div id="report-detail-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="header-title-group">
+                    <h2 id="detail-title"></h2>
+                    <p class="header-subtitle" id="detail-meta"></p>
+                </div>
+                <button class="close-btn" id="detail-close-btn" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="detail-image" alt="Report attachment" style="width:100%; max-height:260px; object-fit:cover; border-radius:8px; margin-bottom:14px; display:none;">
+
+                <div class="card-tags" style="margin-bottom: 14px;">
+                    <span class="badge-outline" id="detail-category"></span>
+                    <span class="badge-severity" id="detail-severity"></span>
+                    <span class="badge-status" id="detail-status"></span>
+                </div>
+
+                <p id="detail-description" style="font-size: 14px; color: var(--black); line-height: 1.55; margin-bottom: 18px;"></p>
+
+                <div class="like-row">
+                    <button id="detail-like-btn" class="submit-form-btn" style="width: auto; padding: 10px 18px;">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                        <span id="detail-like-count">0</span> people reported this issue too
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase CDN Driver & Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="reports.js"></script>
+</body>
+</html>

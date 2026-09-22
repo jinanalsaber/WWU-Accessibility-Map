@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWU Campus Accessibility Map</title>
+    <!-- FontAwesome Icons Layer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Montserrat & Fira Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="map.css">
+</head>
+<body>
+
+    <a href="#map" class="skip-link">Skip to map</a>
+
+    <!-- 1. Master Navigation Bar -->
+   <header class="navbar">
+        <nav class="nav-left" aria-label="Primary">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="map.html" class="nav-btn active" aria-current="page">Map</a>
+            <a href="reports.html" class="nav-btn">Recent Reports</a>
+            <a href="make_report.html" class="nav-btn" id="report-issue-nav-btn">Report Issue</a>
+            
+        </nav>
+        
+        <div class="nav-center">
+            WESTERN WASHINGTON UNIVERSITY
+        </div>
+        
+        <div class="nav-right">
+            <a href="../Admin/admin.html" class="nav-btn-admin"><i class="fa-solid fa-lock"></i> Admin Login</a>
+        </div>
+    </header>
+
+    <!-- 2. Main Interface Container Split View -->
+    <div class="map-page-container" id="map-page-container">
+
+        <!-- Mobile-only: switch between full-screen map and full-screen list -->
+        <div class="mobile-view-toggle">
+            <button type="button" class="view-toggle-btn active" data-view="map">
+                <i class="fa-solid fa-map" aria-hidden="true"></i> Map
+            </button>
+            <button type="button" class="view-toggle-btn" data-view="list">
+                <i class="fa-solid fa-list" aria-hidden="true"></i> List
+            </button>
+        </div>
+
+        <!-- Left Sidebar: Dynamic Insight Feeds -->
+        <aside class="sidebar" id="sidebar-panel" aria-label="Reports and accessibility filters">
+            <div class="sidebar-header">
+                <div class="search-box">
+                    <label for="map-search-input" class="sr-only">Search buildings or reports</label>
+                    <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                    <input type="text" id="map-search-input" placeholder="Search buildings or reports..." class="search-bar">
+                </div>
+                
+                <div class="filter-row">
+                    <label for="map-category-filter" class="sr-only">Filter by category</label>
+                    <select id="map-category-filter" class="filter-dropdown"><option>All Categories</option></select>
+                    <label for="map-severity-filter" class="sr-only">Filter by severity</label>
+                    <select id="map-severity-filter" class="filter-dropdown"><option>All Severities</option></select>
+                </div>
+            </div>
+
+            <!-- Accessibility Feature Layers (collapsible so it doesn't dominate the
+                 limited vertical space available on mobile) -->
+            <details class="accessibility-layers" open>
+                <summary class="accessibility-layers-title">Accessibility Layers</summary>
+                <div class="layer-toggle-group" role="group" aria-label="Accessibility layer toggles">
+                    <label class="layer-toggle">
+                        <input type="checkbox" class="layer-checkbox" data-layer-type="automatic_door" checked>
+                        <span class="layer-swatch" style="background-color: #007AC8;" aria-hidden="true"></span> Automatic Doors
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" class="layer-checkbox" data-layer-type="accessible_parking" checked>
+                        <span class="layer-swatch" style="background-color: #7c3aed;" aria-hidden="true"></span> Accessible Parking
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" class="layer-checkbox" data-layer-type="elevator" checked>
+                        <span class="layer-swatch" style="background-color: #006B3F;" aria-hidden="true"></span> Elevators
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" class="layer-checkbox" data-layer-type="ramp" checked>
+                        <span class="layer-swatch" style="background-color: #FFC61E;" aria-hidden="true"></span> Ramps
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" class="layer-checkbox" data-layer-type="accessible_restroom" checked>
+                        <span class="layer-swatch" style="background-color: #0EA5E9;" aria-hidden="true"></span> Accessible Restrooms
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" class="layer-checkbox" data-layer-type="construction" checked>
+                        <span class="layer-swatch" style="background-color: #CC2D30;" aria-hidden="true"></span> Construction Zones
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" id="routes-checkbox" checked>
+                        <span class="layer-swatch" style="background-color: #003F87;" aria-hidden="true"></span> Accessible Routes
+                    </label>
+                </div>
+            </details>
+
+            <div class="reports-list" id="reports-feed">
+                <!-- Database cards will be injected here automatically by map.js -->
+            </div>
+        </aside>
+
+        <!-- Right View: Google Maps Canvas with Target Overlay -->
+        <div class="map-wrapper" style="position: relative; flex: 1; height: 100%;">
+            <main id="map" style="width: 100%; height: 100%;"></main>
+
+            <!-- Floating Target Crosshair for Mobile Pin Drops -->
+            <div id="map-target-overlay" class="map-target-overlay">
+                <div class="target-pin"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="target-tooltip">Move map to place pin under marker</div>
+            </div>
+        </div>
+        
+    </div>
+
+
+
+    <!-- 4. Script Execution Order -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQezXN5mS8XTQCS4gWw5EbBDF4uRjkkVg&callback=initMap" async defer></script>
+
+</body>
+</html>

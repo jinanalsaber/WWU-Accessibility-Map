@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Admin - WWU Accessibility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <header class="admin-navbar">
+        <div class="admin-navbar-left">
+            <a href="../user/map.html" class="admin-back-link"><i class="fa-solid fa-arrow-left"></i> Back to Map</a>
+            <div class="admin-panel-title"><i class="fa-solid fa-shield-halved"></i> Admin Panel</div>
+        </div>
+        <nav class="admin-navbar-right">
+            <a href="admin.html" class="admin-nav-link"><i class="fa-solid fa-table-cells-large"></i><span>Dashboard</span></a>
+            <a href="reports.html" class="admin-nav-link active"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <a href="buildings.html" class="admin-nav-link"><i class="fa-solid fa-building"></i><span>Buildings</span></a>
+            <a href="analytics.html" class="admin-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="ai-moderator.html" class="admin-nav-link"><i class="fa-solid fa-robot"></i><span>AI Moderator</span></a>
+        </nav>
+    </header>
+
+    <div id="admin-gate" class="admin-gate">
+        <div class="gate-card">
+            <i class="fa-solid fa-lock gate-icon"></i>
+            <h2>Admin Access</h2>
+            <p>Enter the admin passcode to continue.</p>
+            <input type="password" id="admin-passcode-input" class="form-control" placeholder="Passcode" autocomplete="off">
+            <button id="admin-passcode-submit" class="submit-form-btn">Unlock</button>
+            <p id="admin-gate-error" class="gate-error">Incorrect passcode. Please try again.</p>
+        </div>
+    </div>
+
+    <div id="admin-content" class="admin-content">
+        <div class="admin-page-wrapper">
+            <div class="admin-page-header">
+                <div>
+                    <a href="buildings.html" id="back-to-buildings-link" class="back-to-buildings-link">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Building Insights
+                    </a>
+                    <h1>Report Moderation</h1>
+                    <p>Review, hide, and update the status of submitted reports.</p>
+                </div>
+                <button id="admin-logout-btn" class="admin-logout-btn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                </button>
+            </div>
+
+            <!-- Search + Status Filter -->
+            <div class="reports-controls">
+                <div class="search-box-wide">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search reports..." class="search-bar">
+                </div>
+                <select id="status-filter" class="filter-dropdown">
+                    <option value="all">All Status</option>
+                    <option value="open">Open</option>
+                    <option value="in review">In Review</option>
+                    <option value="in progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+            </div>
+
+            <div id="reports-count" class="count-badge">Loading reports...</div>
+
+            <!-- Moderation Table -->
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Building</th>
+                            <th>Category</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Upvotes</th>
+                            <th class="admin-table-actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reports-table-body">
+                        <tr><td colspan="8" class="panel-empty-msg">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Report Review / Edit Modal -->
+    <div id="review-modal" class="admin-modal-overlay">
+        <div class="admin-modal-content">
+            <div class="admin-modal-header">
+                <h2 id="review-title"></h2>
+                <button class="admin-modal-close" id="review-close-btn" aria-label="Close">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <div class="review-badges">
+                    <span class="pill pill-severity" id="review-severity"></span>
+                    <span class="pill pill-status" id="review-status-badge"></span>
+                    <span class="pill pill-category" id="review-category"></span>
+                </div>
+
+                <p id="review-description" class="review-description"></p>
+
+                <div class="review-meta-line"><i class="fa-solid fa-location-dot"></i> <span id="review-building"></span></div>
+                <div class="review-meta-line"><i class="fa-regular fa-clock"></i> <span id="review-date"></span></div>
+                <div class="review-meta-line"><i class="fa-solid fa-fingerprint"></i> <span id="review-anon-id"></span></div>
+                <div class="review-meta-line"><i class="fa-regular fa-thumbs-up"></i> <span id="review-upvotes"></span></div>
+
+                <hr class="review-divider">
+
+                <div class="review-field">
+                    <label for="review-status-select">Update Status</label>
+                    <select id="review-status-select" class="form-control">
+                        <option value="open">Open</option>
+                        <option value="in review">In Review</option>
+                        <option value="in progress">In Progress</option>
+                        <option value="resolved">Resolved</option>
+                    </select>
+                </div>
+
+                <div class="review-field">
+                    <label for="review-notes-input">Admin Notes</label>
+                    <textarea id="review-notes-input" class="form-control" rows="3" placeholder="Add internal notes..."></textarea>
+                </div>
+
+                <div class="review-modal-actions">
+                    <button id="review-cancel-btn" class="btn-secondary">Cancel</button>
+                    <button id="review-save-btn" class="btn-primary">Update Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin-common.js"></script>
+    <script src="reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Moderator - Admin - WWU Accessibility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <header class="admin-navbar">
+        <div class="admin-navbar-left">
+            <a href="../user/map.html" class="admin-back-link"><i class="fa-solid fa-arrow-left"></i> Back to Map</a>
+            <div class="admin-panel-title"><i class="fa-solid fa-shield-halved"></i> Admin Panel</div>
+        </div>
+        <nav class="admin-navbar-right">
+            <a href="admin.html" class="admin-nav-link"><i class="fa-solid fa-table-cells-large"></i><span>Dashboard</span></a>
+            <a href="reports.html" class="admin-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <a href="buildings.html" class="admin-nav-link"><i class="fa-solid fa-building"></i><span>Buildings</span></a>
+            <a href="analytics.html" class="admin-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="ai-moderator.html" class="admin-nav-link active"><i class="fa-solid fa-robot"></i><span>AI Moderator</span></a>
+        </nav>
+    </header>
+
+    <div id="admin-gate" class="admin-gate">
+        <div class="gate-card">
+            <i class="fa-solid fa-lock gate-icon"></i>
+            <h2>Admin Access</h2>
+            <p>Enter the admin passcode to continue.</p>
+            <input type="password" id="admin-passcode-input" class="form-control" placeholder="Passcode" autocomplete="off">
+            <button id="admin-passcode-submit" class="submit-form-btn">Unlock</button>
+            <p id="admin-gate-error" class="gate-error">Incorrect passcode. Please try again.</p>
+        </div>
+    </div>
+
+    <div id="admin-content" class="admin-content">
+        <div class="admin-page-wrapper">
+            <div class="admin-page-header">
+                <div>
+                    <h1><i class="fa-solid fa-robot" style="color: var(--blue);"></i> AI Moderator</h1>
+                    <p>Automatically flagged reports for admin review.</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <span id="pending-count-badge" class="pending-count-badge"></span>
+                    <button id="admin-logout-btn" class="admin-logout-btn">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                    </button>
+                </div>
+            </div>
+
+            <div class="ai-about-box">
+                <h3><i class="fa-solid fa-robot"></i> About the AI Moderator</h3>
+                <p>
+                    Every report is checked against an AI model (via a Supabase Edge Function) the moment it's submitted.
+                    Anything flagged as spam/test or too vague stays hidden from the public map and reports page until an
+                    admin approves it here. Reports are also cross-checked against recent submissions for likely duplicates
+                    using a rule-based building + category + timing match. Confidence scores reflect the model's own
+                    certainty in its classification.
+                </p>
+            </div>
+
+            <!-- Flag Summary Stat Cards -->
+            <div class="stat-cards" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="stat-card" style="text-align: center;">
+                    <div class="stat-value" id="stat-flag-total">—</div>
+                    <div class="stat-label">Total Flagged</div>
+                </div>
+                <div class="stat-card" style="text-align: center;">
+                    <div class="stat-value" id="stat-flag-pending" style="color: #9A7200;">—</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card" style="text-align: center;">
+                    <div class="stat-value" id="stat-flag-approved" style="color: var(--dark-green);">—</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+                <div class="stat-card" style="text-align: center;">
+                    <div class="stat-value" id="stat-flag-removed" style="color: var(--red);">—</div>
+                    <div class="stat-label">Removed</div>
+                </div>
+            </div>
+
+            <!-- Filter Tabs + Sort -->
+            <div class="flag-tabs-row">
+                <div class="flag-tabs">
+                    <button class="flag-tab active" data-filter="all">All Flags</button>
+                    <button class="flag-tab" data-filter="pending">Pending</button>
+                    <button class="flag-tab" data-filter="approved">Approved</button>
+                    <button class="flag-tab" data-filter="removed">Removed</button>
+                </div>
+                <select id="sort-select" class="filter-dropdown">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                </select>
+            </div>
+
+            <div id="flags-list" class="flags-list">
+                <p class="panel-empty-msg">Scanning reports...</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin-common.js"></script>
+    <script src="ai-moderator.js"></script>
+</body>
+</html>

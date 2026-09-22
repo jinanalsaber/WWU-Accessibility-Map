@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Report an Accessibility Issue - WWU</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    
+    <link rel="stylesheet" href="make_report.css">
+
+ 
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+            <a href="index.html" class="nav-btn"><i class="fa-solid fa-arrow-left"></i> Back to Main Map & Reports</a>
+    </header>
+
+    <main class="report-container" id="main-content">
+        
+        <!-- Title & Anonymous Badge -->
+        <div class="badge-anonymous">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Anonymous Report
+        </div>
+        <h1 class="page-title">Report an Accessibility Issue</h1>
+        <p class="page-subtitle">Help improve campus accessibility by reporting barriers, broken features, or hazards. No login required. Fields marked with an asterisk (*) are required.</p>
+
+        <!-- Top Map Selection Section -->
+        <div class="map-card">
+            <div class="map-card-header">
+                <i class="fa-solid fa-location-dot" style="color: #007AC8;" aria-hidden="true"></i> Select Location on Map or Click a Building Icon
+            </div>
+            
+            <div id="report-map" role="application" aria-label="Interactive campus map for selecting the report's location"></div>
+
+            <div id="selected-coords-display" class="coords-status-box">
+                <i class="fa-solid fa-map-pin"></i> Click map/building to set precise location.
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-card">
+            <form id="standalone-report-form">
+                
+                <!-- Hidden Coordinates -->
+                <input type="hidden" id="form-lat" name="lat" />
+                <input type="hidden" id="form-lng" name="lng" />
+
+                <div class="form-grid">
+                    
+                    <!-- Issue Title -->
+                    <div class="form-group">
+                        <label for="form-title">Title *</label>
+                        <input type="text" id="form-title" class="form-control" placeholder="Brief title of the issue" required />
+                    </div>
+
+                    <!-- Building Dropdown -->
+                    <div class="form-group">
+                        <label for="form-building-select">Building / Location *</label>
+                        <select id="form-building-select" class="form-control" required>
+                            <option value="">-- Select a Building --</option>
+                        </select>
+                    </div>
+
+                    <!-- Classroom Dropdown -->
+                    <div class="form-group">
+                        <label for="form-room-select">Classroom / Room (Optional)</label>
+                        <select id="form-room-select" class="form-control" disabled>
+                            <option value="">-- Select Building First --</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Dropdown -->
+                    <div class="form-group">
+                        <label for="form-category">Category *</label>
+                        <select id="form-category" class="form-control" required>
+                            <option value="">Select category</option>
+                            <option value="Elevator/Lift Outage">Elevator/Lift Outage</option>
+                            <option value="Automatic Door Fault">Automatic Door Fault</option>
+                            <option value="Ramp / Walkway Barrier">Ramp / Walkway Barrier</option>
+                            <option value="Construction Obstruction">Construction Obstruction</option>
+                            <option value="Restroom Access Issue">Restroom Access Issue</option>
+                            <option value="Snow / Ice Hazard">Snow / Ice Hazard</option>
+                            <option value="Other Accessibility Issue">Other Accessibility Issue</option>
+                        </select>
+                    </div>
+
+                    <!-- Custom Classroom Input (Hidden by Default) -->
+                    <div class="form-group full-width" id="custom-room-container" style="display: none;">
+                        <label for="form-custom-room">Custom Room or Area Description</label>
+                        <input type="text" id="form-custom-room" class="form-control" placeholder="e.g., Room 402, Stairwell, North Entrance" />
+                    </div>
+
+                    <!-- Severity Dropdown -->
+                    <div class="form-group">
+                        <label for="form-severity">Severity *</label>
+                        <select id="form-severity" class="form-control" required>
+                            <option value="Low">Low — Minor inconvenience</option>
+                            <option value="Medium" selected>Medium — Significant barrier</option>
+                            <option value="Critical">High — Critical blocked access</option>
+                        </select>
+                    </div>
+
+                    <!-- Photo Upload -->
+                    <div class="form-group">
+                        <label for="form-image">Attach Photo (Optional)</label>
+                        <input type="file" id="form-image" class="form-control" accept="image/*" />
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group full-width">
+                        <label for="form-description">Description *</label>
+                        <textarea id="form-description" class="form-control" placeholder="Describe the accessibility issue in detail..." required></textarea>
+                    </div>
+
+                </div>
+
+                <div style="margin-top: 1.5rem; text-align: right;">
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-paper-plane fa-solid"></i> Submit Accessibility Report
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Google Maps Script (REPLACE YOUR_API_KEY with your key) -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQezXN5mS8XTQCS4gWw5EbBDF4uRjkkVg&callback=initReportPageMap" async defer></script>
+
+    <!-- Dedicated Report Page Logic -->
+    <script src="make_report.js"></script>
+</body>
+</html>

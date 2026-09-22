@@ -1,0 +1,402 @@
+/* --- Base Resets & Fonts --- */
+:root {
+    /* Primary Color Palette */
+    --dark-blue: #003F87;   /* ~20% Header, Navigation & Major Accents */
+    --blue: #007AC8;        /* ~20% Secondary UI, Active States & Buttons */
+    --white: #FFFFFF;       /* ~50% Main Backgrounds, Card Shells */
+
+    /* Accent Colors (~10%) */
+    --light-green: #BAD80A; /* Dominant Accent / Highlights */
+    --dark-green: #006B3F;  /* Success States / Low Severity */
+    --yellow: #FFC61E;      /* Medium Severity / Warnings */
+    --red: #CC2D30;         /* Critical Severity / Errors */
+    
+    /* Neutrals */
+    --black: #1C2023;       /* Primary Typography */
+    --gray: #52606D;        /* Subtitles, Borders & Icons */
+    --gray-light: #F4F6F8;  /* Sidebar & Background Panels */
+    --gray-border: #E1E6EB; /* Subtle Card Divider Borders */
+
+    /* Typography Stack */
+    --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-body: 'Fira Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ==========================================================================
+   Accessibility base layer
+   ========================================================================== */
+
+/* Visually hides content while keeping it available to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Lets keyboard users jump past the nav straight to page content */
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    z-index: 3000;
+    transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+    top: 12px;
+}
+
+/* A visible, high-contrast focus ring for every interactive element, so
+   keyboard navigation is always trackable regardless of the element's own
+   :hover/:focus styling */
+:focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Base Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--black);
+    background-color: var(--gray-light);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Headings Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+    NAVBAR STYLES
+   ========================================================================== */
+.navbar {
+    background-color: var(--dark-blue); /* #003F87 */
+    color: var(--white);
+    height: 64px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Equal 3-part layout */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    position: relative;
+    width: 100%;
+}
+
+/* Left Group (Buttons) */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1; /* Takes equal space on left */
+    justify-content: flex-start;
+}
+
+.nav-btn {
+    font-family: var(--font-heading); /* Montserrat */
+    color: var(--white);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-btn.active {
+    background-color: var(--blue); /* #007AC8 */
+    color: var(--white);
+}
+
+/* Standout Action Button (Light Green Accent) */
+#report-issue-nav-btn,
+.nav-btn.btn-accent {
+    background-color: var(--light-green); /* #BAD80A */
+    color: var(--black); /* #1C2023 for high contrast accessibility */
+    font-weight: 800;
+}
+
+#report-issue-nav-btn:hover,
+.nav-btn.btn-accent:hover {
+    background-color: #a4be07;
+    transform: translateY(-1px);
+}
+
+/* Admin Login — deliberately distinct from both regular nav links and the
+   emphasized Report Issue button, so it reads as a separate kind of action
+   (signing into a restricted area) rather than another page in the nav */
+.nav-btn-admin {
+    font-family: var(--font-heading);
+    color: var(--white);
+    text-decoration: none;
+    background-color: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-btn-admin:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: var(--white);
+}
+
+.nav-btn-admin i {
+    font-size: 11px;
+}
+
+/* Center Group (Title) */
+.nav-center {
+    font-family: var(--font-heading); /* Montserrat */
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--white);
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    flex: 1; /* Takes equal space in center */
+}
+
+/* Right Group (Logo) */
+.nav-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1; /* Takes equal space on right */
+}
+
+.school-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Mobile Responsiveness for Header */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 12px;
+        height: 56px;
+    }
+
+    .nav-center {
+        display: none; /* Hide title on smaller screens to prevent overlap */
+    }
+
+    .nav-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .nav-btn-admin {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .nav-btn-admin span {
+        display: none; /* keep just the lock icon on very tight widths */
+    }
+}
+
+/* --- Hero Section with Background --- */
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 520px; 
+    overflow: hidden;
+}
+
+.hero-bg {
+    width: 100%;
+    height: 85%;
+    background-image: url('photos/campus-2.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-overlay-grid {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    display: grid;
+    grid-template-columns: 5.5fr 3fr;
+    gap: 25px;
+    align-items: end;
+}
+
+/* Light Blue Title Block */
+.block-title {
+    background-color: #007bc4;
+    color: white;
+    padding: 45px 40px;
+    text-transform: uppercase;
+}
+
+.block-title h1 {
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: 0.5px;
+}
+
+/* Dark Blue Navigation Action Block */
+.block-navigate {
+    background-color: #003f87;
+    color: white;
+    padding: 40px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 310px;
+    transition: background-color 0.2s ease;
+}
+
+.block-navigate:hover {
+    background-color: #002e63;
+}
+
+.block-navigate-label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* The round neon arrow button */
+.arrow-circle {
+    width: 75px;
+    height: 75px;
+    border: 3px solid #b3d12b;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+}
+
+.arrow-circle i {
+    color: #b3d12b;
+    font-size: 28px;
+}
+
+@media (max-width: 768px) {
+    .hero-container {
+        height: auto;
+    }
+
+    .hero-bg {
+        height: 260px;
+    }
+
+    .hero-overlay-grid {
+        position: static;
+        left: 0;
+        right: 0;
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .block-title {
+        padding: 28px 24px;
+    }
+
+    .block-title h1 {
+        font-size: 30px;
+    }
+
+    .block-navigate {
+        height: auto;
+        padding: 24px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .arrow-circle {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+
+    .arrow-circle i {
+        font-size: 20px;
+    }
+}
+
+/* --- Bottom Info Section --- */
+.info-section {
+    max-width: 80%;
+    margin: 50px auto 80px auto;
+    padding-left: 10%;
+}
+
+.info-section h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+.info-section p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222222;
+    max-width: 650px;
+}

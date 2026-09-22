@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buildings - Admin - WWU Accessibility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <header class="admin-navbar">
+        <div class="admin-navbar-left">
+            <a href="../user/map.html" class="admin-back-link"><i class="fa-solid fa-arrow-left"></i> Back to Map</a>
+            <div class="admin-panel-title"><i class="fa-solid fa-shield-halved"></i> Admin Panel</div>
+        </div>
+        <nav class="admin-navbar-right">
+            <a href="admin.html" class="admin-nav-link"><i class="fa-solid fa-table-cells-large"></i><span>Dashboard</span></a>
+            <a href="reports.html" class="admin-nav-link"><i class="fa-solid fa-file-lines"></i><span>Reports</span></a>
+            <a href="buildings.html" class="admin-nav-link active"><i class="fa-solid fa-building"></i><span>Buildings</span></a>
+            <a href="analytics.html" class="admin-nav-link"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+            <a href="ai-moderator.html" class="admin-nav-link"><i class="fa-solid fa-robot"></i><span>AI Moderator</span></a>
+        </nav>
+    </header>
+
+    <div id="admin-gate" class="admin-gate">
+        <div class="gate-card">
+            <i class="fa-solid fa-lock gate-icon"></i>
+            <h2>Admin Access</h2>
+            <p>Enter the admin passcode to continue.</p>
+            <input type="password" id="admin-passcode-input" class="form-control" placeholder="Passcode" autocomplete="off">
+            <button id="admin-passcode-submit" class="submit-form-btn">Unlock</button>
+            <p id="admin-gate-error" class="gate-error">Incorrect passcode. Please try again.</p>
+        </div>
+    </div>
+
+    <div id="admin-content" class="admin-content">
+        <div class="admin-page-wrapper">
+            <div class="admin-page-header">
+                <div>
+                    <h1>Building Insights</h1>
+                    <p>Per-building accessibility data and recurring issue patterns.</p>
+                </div>
+                <button id="admin-logout-btn" class="admin-logout-btn">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                </button>
+            </div>
+
+            <div class="search-box-wide" style="margin-bottom: 16px;">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="building-search-input" placeholder="Search buildings..." class="search-bar">
+            </div>
+
+            <div id="buildings-grid" class="buildings-grid">
+                <p class="panel-empty-msg">Loading...</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="admin-common.js"></script>
+    <script src="buildings.js"></script>
+</body>
+</html>
