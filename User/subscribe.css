@@ -1,0 +1,213 @@
+body {
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+    display: block;
+}
+
+.subscribe-wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 60px 20px;
+}
+
+.subscribe-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--dark-blue);
+    margin-bottom: 8px;
+}
+
+.subscribe-header p {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+.subscribe-form {
+    background-color: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: 12px;
+    padding: 28px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 8px;
+}
+
+.optional-label {
+    font-weight: 500;
+    color: var(--gray);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0, 122, 200, 0.12);
+}
+
+select.form-control[multiple] {
+    padding: 6px;
+}
+
+select.form-control[multiple] option {
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+
+.field-hint {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 6px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+#sub-filters-section {
+    border-top: 1px solid var(--gray-border);
+    padding-top: 18px;
+    margin-top: 4px;
+    transition: opacity 0.15s ease;
+}
+
+#sub-filters-section.disabled-section {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.filters-intro {
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.subscribe-error {
+    display: none;
+    color: var(--red);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.subscribe-error.visible {
+    display: block;
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.15s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background-color: var(--blue);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.subscribe-success {
+    background-color: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: 12px;
+    padding: 36px 28px;
+    text-align: center;
+}
+
+.subscribe-success i {
+    font-size: 40px;
+    color: var(--dark-green);
+    margin-bottom: 14px;
+    display: block;
+}
+
+.subscribe-success h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 10px;
+}
+
+.subscribe-success p {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.unsub-link-preview {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+    word-break: break-all;
+    margin-bottom: 14px;
+}
+
+.save-link-note {
+    font-size: 12px;
+    color: var(--gray);
+    font-style: italic;
+}
+
+@media (max-width: 640px) {
+    .subscribe-wrapper {
+        padding: 24px 16px 40px 16px;
+    }
+
+    .subscribe-form {
+        padding: 20px;
+    }
+}

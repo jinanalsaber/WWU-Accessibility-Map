@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Notified - WWU Accessibility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="map.css"> <!-- Shared navbar -->
+    <link rel="stylesheet" href="subscribe.css">
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="navbar">
+        <nav class="nav-left" aria-label="Primary">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="map.html" class="nav-btn">Map</a>
+            <a href="reports.html" class="nav-btn">Recent Reports</a>
+            <a href="make_report.html" class="nav-btn" id="report-issue-nav-btn">Report Issue</a>
+            <a href="subscribe.html" class="nav-btn active" aria-current="page">Get Notified</a>
+        </nav>
+        <div class="nav-center">WESTERN WASHINGTON UNIVERSITY</div>
+        <div class="nav-right">
+            <a href="../Admin/admin.html" class="nav-btn-admin"><i class="fa-solid fa-lock"></i> <span>Admin Login</span></a>
+        </div>
+    </header>
+
+    <main class="subscribe-wrapper" id="main-content">
+
+        <div class="subscribe-header">
+            <h1>Get Notified About Accessibility Issues</h1>
+            <p>Choose specific buildings or issue types to follow, or get an email for every new report. You can unsubscribe at any time.</p>
+        </div>
+
+        <form id="subscribe-form" class="subscribe-form">
+
+            <div class="form-group">
+                <label for="sub-email">Email Address *</label>
+                <input type="email" id="sub-email" class="form-control" placeholder="you@wwu.edu" required>
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="sub-all-notifications">
+                    Notify me about <strong>every</strong> new report, campus-wide
+                </label>
+            </div>
+
+            <div id="sub-filters-section">
+                <p class="filters-intro">Or, follow specific things instead:</p>
+
+                <div class="form-group">
+                    <label for="sub-buildings">Buildings <span class="optional-label">(optional — leave blank for any building)</span></label>
+                    <select id="sub-buildings" class="form-control" multiple size="6">
+                        <!-- Populated by subscribe.js from the same building list as the report form -->
+                    </select>
+                    <p class="field-hint">Hold Ctrl (Windows) or Cmd (Mac) to select more than one.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="sub-categories">Issue Types <span class="optional-label">(optional — leave blank for any type)</span></label>
+                    <select id="sub-categories" class="form-control" multiple size="7">
+                        <option value="Elevator/Lift Outage">Elevator/Lift Outage</option>
+                        <option value="Automatic Door Fault">Automatic Door Fault</option>
+                        <option value="Ramp / Walkway Barrier">Ramp / Walkway Barrier</option>
+                        <option value="Construction Obstruction">Construction Obstruction</option>
+                        <option value="Restroom Access Issue">Restroom Access Issue</option>
+                        <option value="Snow / Ice Hazard">Snow / Ice Hazard</option>
+                        <option value="Other Accessibility Issue">Other Accessibility Issue</option>
+                    </select>
+                    <p class="field-hint">Hold Ctrl (Windows) or Cmd (Mac) to select more than one.</p>
+                </div>
+            </div>
+
+            <p id="subscribe-error" class="subscribe-error"></p>
+
+            <button type="submit" class="btn-submit" id="subscribe-submit-btn">
+                <i class="fa-solid fa-bell"></i> Subscribe to Notifications
+            </button>
+        </form>
+
+        <div id="subscribe-success" class="subscribe-success" hidden>
+            <i class="fa-solid fa-circle-check"></i>
+            <h2>You're subscribed!</h2>
+            <p>You'll get an email when a matching report comes in. Didn't mean to sign up, or want to stop later?</p>
+            <a id="subscribe-unsub-link" href="#" class="unsub-link-preview">Unsubscribe using this link</a>
+            <p class="save-link-note">This page won't show this link again — each notification email will also include it, so you don't need to save it now unless you want to.</p>
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="subscribe.js"></script>
+</body>
+</html>

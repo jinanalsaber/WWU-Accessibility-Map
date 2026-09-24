@@ -600,6 +600,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 const { error } = await _supabase.from('reports').insert([reportPayload]);
                 if (error) throw error;
 
+                // Only notify subscribers about reports that are actually visible —
+                // no point emailing people about something still pending moderation
+                if (reportPayload.flag_status !== 'pending') {
+                    try {
+                        await _supabase.functions.invoke('notify-subscribers', {
+                            body: {
+                                title: reportPayload.title,
+                                description: reportPayload.description,
+                                building: reportPayload.building,
+                                category: reportPayload.category
+                            }
+                        });
+                    } catch (notifyErr) {
+                        // Not critical to the person submitting the report — log it,
+                        // but don't block their success confirmation over it
+                        console.error("Subscriber notification call failed:", notifyErr);
+                    }
+                }
+
                 alert("Report submitted successfully! Thank you for improving campus accessibility.");
                 window.location.href = "index.html";
             } catch (err) {
